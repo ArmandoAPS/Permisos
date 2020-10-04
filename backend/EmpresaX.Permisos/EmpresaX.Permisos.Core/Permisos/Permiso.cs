@@ -21,7 +21,7 @@ namespace EmpresaX.Permisos.Core.Permisos
         [Required]
         public int TipoPermisoId { get; set; }
 
-        public TipoPermiso TipoPermiso { get; set; }
+        public virtual TipoPermiso TipoPermiso { get; set; }
 
         [Required]
         public DateTime FechaPermiso { get; set; }

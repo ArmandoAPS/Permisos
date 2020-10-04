@@ -4,15 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmpresaX.Permisos.Core.Permisos;
 using EmpresaX.Permisos.EntityFrameworkCore.EntityFrameworkCore.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace EmpresaX.Permisos.Web.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class TipoPermisosController : ControllerBase
-    { 
+    {
+
         private readonly IRepository<TipoPermiso> _tipoPermisoRepository;
 
         public TipoPermisosController(IRepository<TipoPermiso> tipoPermisoRepository)
@@ -20,30 +21,41 @@ namespace EmpresaX.Permisos.Web.Controllers
             _tipoPermisoRepository = tipoPermisoRepository;
         }
 
+        // GET: api/TipoPermisos
         [HttpGet]
         public IEnumerable<TipoPermiso> GetAll()
         {
             return _tipoPermisoRepository.GetAll().ToList();
         }
 
+        // GET: api/TipoPermisos/5
+        [HttpGet("{id}", Name = "GetTipoPermiso")]
         public TipoPermiso Get(int id)
         {
             return _tipoPermisoRepository.GetAll().FirstOrDefault(x => x.Id == id);
         }
 
-        public async Task<TipoPermiso> Create(string descripcion)
+        // POST: api/TipoPermisos
+        [HttpPost]
+        public async void Post([FromBody] TipoPermiso tipo)
         {
-            var tipo = new TipoPermiso() { Descripcion = descripcion };
-            return await _tipoPermisoRepository.AddAsync(tipo);
+            await _tipoPermisoRepository.AddAsync(tipo);
         }
-        public async Task<TipoPermiso> Update(TipoPermiso tipo_permiso)
+
+        // PUT: api/TipoPermisos/5
+        [HttpPut("{id}")]
+        public async void Put(int id, [FromBody] TipoPermiso tipo)
         {
-            return await _tipoPermisoRepository.UpdateAsync(tipo_permiso);
+            await _tipoPermisoRepository.UpdateAsync(tipo);
         }
-        public async Task<bool> Delete(int id)
+
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public async void Delete(int id)
         {
-            var tipo = Get(id);
-            return await _tipoPermisoRepository.DeleteAsync(tipo);
+            var tipo = _tipoPermisoRepository.GetAll().FirstOrDefault(x => x.Id == id);
+            if (tipo != null)
+                await _tipoPermisoRepository.DeleteAsync(tipo);
         }
     }
 }

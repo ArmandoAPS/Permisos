@@ -1,10 +1,9 @@
 ﻿{
-  "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:51510",
+      "applicationUrl": "http://localhost:51510/",
       "sslPort": 0
     }
   },
@@ -12,7 +11,6 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "permisos",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,11 +18,11 @@
     "EmpresaX.Permisos.Web": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "permisos",
-      "applicationUrl": "http://localhost:5000",
+      "launchUrl": "http://localhost:51510",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost:51510/"
     }
   }
 }

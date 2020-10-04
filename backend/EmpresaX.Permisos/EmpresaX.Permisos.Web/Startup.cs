@@ -27,7 +27,7 @@ namespace EmpresaX.Permisos.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllersWithViews();
             services.AddDbContext<PermisosDbContext>(o => o.UseSqlite(
                 Configuration.GetConnectionString("Permisos")));
 
@@ -35,6 +35,10 @@ namespace EmpresaX.Permisos.Web
             services.AddTransient<ITipoPermisoRepository, TipoPermisoRepository>();
             services.AddTransient<IPermisoRepository, PermisoRepository>();
 
+            services.AddCors();
+       //     services.AddMvc(options =>
+       //options.EnableEndpointRouting = false)
+       //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,14 +49,21 @@ namespace EmpresaX.Permisos.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials());
+
             app.UseRouting();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
             });
+
         }
     }
 }

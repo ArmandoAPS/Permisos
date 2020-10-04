@@ -23,7 +23,9 @@ namespace EmpresaX.Permisos.EntityFrameworkCore
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=Permisos.db");
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlite("Data Source=Permisos.db");
         }
     }
 }

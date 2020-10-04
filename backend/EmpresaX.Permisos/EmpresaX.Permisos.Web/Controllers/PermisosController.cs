@@ -9,44 +9,55 @@ using Microsoft.Extensions.Logging;
 
 namespace EmpresaX.Permisos.Web.Controllers
 {
+    
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class PermisosController : ControllerBase
     {
 
         private readonly IRepository<Permiso> _permisoRepository;
-        private readonly IRepository<TipoPermiso> _tipoPermisoRepository;
 
-        public PermisosController(IRepository<Permiso> permisoRepository,
-            IRepository<TipoPermiso> tipoPermisoRepository)
+        public PermisosController(IRepository<Permiso> permisoRepository)
         {
             _permisoRepository = permisoRepository;
-            _tipoPermisoRepository = tipoPermisoRepository;
         }
 
+        // GET: api/Permisos
         [HttpGet]
         public IEnumerable<Permiso> GetAll()
         {
             return _permisoRepository.GetAll().ToList();
         }
 
+        // GET: api/Permisos/5
+        [HttpGet("{id}", Name = "GetPermiso")]
         public Permiso Get(int id)
         {
             return _permisoRepository.GetAll().FirstOrDefault(x => x.Id == id);
         }
 
-        public async Task<Permiso> Create(Permiso permiso)
+        // POST: api/Permisos
+        [HttpPost]
+        public async void Post([FromBody] Permiso permiso)
         {
-            return await _permisoRepository.AddAsync(permiso);
+            await _permisoRepository.AddAsync(permiso);
         }
-        public async Task<Permiso> Update(Permiso permiso)
+
+        // PUT: api/Permisos/5
+        [HttpPut("{id}")]
+        public async void Put(int id, [FromBody] Permiso permiso)
         {
-            return await _permisoRepository.UpdateAsync(permiso);
+            await _permisoRepository.UpdateAsync(permiso);
         }
-        public async Task<bool> Delete(int id)
+
+        // DELETE: api/Permisos/5
+        [HttpDelete("{id}")]
+        public async void Delete(int id)
         {
-            var permiso = Get(id);
-            return await _permisoRepository.DeleteAsync(permiso);
+            var permiso = _permisoRepository.GetAll().FirstOrDefault(x => x.Id == id);
+            if (permiso != null)
+                await _permisoRepository.DeleteAsync(permiso);
         }
+
     }
 }
